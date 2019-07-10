@@ -1,0 +1,76 @@
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% load staticfiles %}
+{% block content %}
+
+<style>
+.container{
+    text-align : center;
+}
+img{
+    display : block;
+    margin : auto;
+    width : 80%;
+}
+</style>
+
+
+<div class="container">
+    {% if not user.is_authenticated %}
+    <a class="nav-link" href="{% url 'login' %}">Login</a>
+    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+    {% else %}
+    <form id="logout" method="POST" action="{% url 'logout' %}">
+        {% csrf_token %} 
+        <input type="submit" value="로그아웃">
+    </form>
+    {% endif %}
+    <img src="{% static '삼육라이크라이언.png' %}" alt="">
+    <h1> 블로그 만들어보기! </h1>
+
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'new'%}">새 글 작성하기 </a>
+    <h3>your liked post</h3>
+
+    {% for post in liked_post %}
+    <a href="{% url 'detail' post.id %}">
+        <li>{{post.title}}</li>
+    </a>
+    {% endfor %}
+
+    {% endif %}
+    <h2>블로그 글 목록</h2>
+    <hr>
+    <div class="row">
+        {% for post in blogs %}
+        <div class="col-4">
+            <div class="card">
+                <a href="{% url 'detail' post.id %}">
+                    <b>제목 : {{post.title}}</b>
+                </a>
+                <hr>
+                작성자 : {{post.writer}}
+                <hr>
+                {{post.pub_date}}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% if blogs.has_previous%}
+    <a href="?page=1">First</a>
+    <a href="?page={{blogs.previous_page_number}}">Previous</a>
+    {% endif %}
+
+    <span>{{blogs.number}}</span>
+    <span>of</span>
+    <span>{{blogs.paginator.num_pages}}</span>
+
+    {% if blogs.has_next%}
+    <a href="?page={{blogs.next_page_number}}">Next</a>
+    <a href="?page={{blogs.paginator.num_pages}}">Last</a>
+    {% endif%}
+</div>
+
+
+{% endblock %}
