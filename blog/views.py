@@ -6,15 +6,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 def home(request):
-    post_list = Post.objects.all()
-    if request.user.is_authenticated:
-        my_liked_post = Post.objects.filter(user = request.user)
-    else:
-        my_liked_post = None
-    paginator = Paginator(post_list, 3)
-    page = request.GET.get('page')
-    blogs = paginator.get_page(page)
-    return render(request, 'home.html', {'blogs':blogs,'liked_post':my_liked_post})
+    #
 
 def detail(request,post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -58,10 +50,4 @@ def new_comment(request, post_id):
     return redirect('detail', post_id)
 
 def like(request,post_id):
-    post=get_object_or_404(Post, pk = post_id)
-    if post.user.filter(username=request.user.username).exists():
-        post.user.remove(request.user)    
-    else:
-        post.user.add(request.user)
-    post.save()
-    return redirect('detail', post_id)
+#
