@@ -1,6 +1,6 @@
 ### clone  가상환경 실행 > pip install -r requirements.txt
 
-[[TIP]]blogapp - models.py[[/TIP]]
+> blogapp - models.py
 
 ```{.python}
     class Post(models.Model):
@@ -41,4 +41,4 @@ def home(request):
  ```
  
  
- > 후 python manage.py makemigrations - python manage.py migrate - python manage.py runserver 하면 완성^^
+ > python manage.py makemigrations - python manage.py migrate - python manage.py runserver 하면 완성^^
